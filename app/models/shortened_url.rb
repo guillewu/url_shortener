@@ -66,10 +66,14 @@ class ShortenedUrl < ActiveRecord::Base
   end
 
   def num_recent_uniques(minutes = 10)
-    visits.select do |visit|
-      ((Time.now - visit.created_at) / 60) <= minutes
-    end.group_by do |visit|
-      visit.visitor
-    end.count
+    now = Time.now
+    range = ((now - 60.minutes)..now)
+    visits.where(:created_at => range).count
+
+    # visits.select do |visit|
+    #   ((Time.now - visit.created_at) / 60) <= minutes
+    # end.group_by do |visit|
+    #   visit.visitor
+    # end.count
   end
 end
