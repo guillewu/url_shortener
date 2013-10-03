@@ -23,4 +23,10 @@ class User < ActiveRecord::Base
     :source => :shortened_url,
     :uniq => true
   )
+
+  def links_created_one_min
+    now = Time.now
+    range = ((now - 1.minutes)..now)
+    shortened_urls.where(:created_at => range).count()
+  end
 end

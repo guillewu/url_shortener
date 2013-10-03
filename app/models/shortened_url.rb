@@ -3,7 +3,8 @@ require 'securerandom'
 class ShortenedUrl < ActiveRecord::Base
   attr_accessible :long_url, :short_url, :submitter_id
 
-  validates :long_url, :short_url, presence: true, uniqueness: true
+  validates :long_url, uniqueness: true, length: { maximum: 1024 }
+  validates :short_url, presence: true, uniqueness: true
   validates :submitter_id, presence: true
 
   belongs_to(
@@ -49,6 +50,7 @@ class ShortenedUrl < ActiveRecord::Base
     end
     code
   end
+
 
   def self.create_for_user_and_long_url!(user, long_url)
     ShortenedUrl.find_by_long_url(long_url) ||

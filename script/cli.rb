@@ -8,7 +8,11 @@ def prompt_long_url
 end
 
 def create_short_url(user, long_url)
-  ShortenedUrl.create_for_user_and_long_url!(user, long_url).short_url
+  if user.links_created_one_min > 5
+    return "Please wait a while.."
+  else
+    ShortenedUrl.create_for_user_and_long_url!(user, long_url).short_url
+  end
 end
 
 def prompt_short_url
