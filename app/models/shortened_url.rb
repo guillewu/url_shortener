@@ -27,6 +27,20 @@ class ShortenedUrl < ActiveRecord::Base
     :uniq => true
   )
 
+  has_many(
+    :tag_topics,
+    :through => :taggings,
+    :source => :tag_topic
+  )
+
+  has_many(
+    :taggings,
+    :class_name => "Tagging",
+    :foreign_key => :url_id,
+    :primary_key => :id
+
+  )
+
   def self.random_code
     code = nil
     until code
